@@ -74,10 +74,10 @@ inherits = "dev"
 
 [patch.crates-io]
 
-kurbo ={ path = "../kurbo-bevy-0.17/kurbo" }
-vello = { path = "../vello-bevy-0.17/vello" }
-bevy_vello = { path = "../bevy_vello-bevy-0.17" }
-parley = { path = "../parley-bevy-0.17/parley" }
-fontique = { path = "../parley-bevy-0.17/fontique" }
-usvg ={ path = "../resvg-bevy-0.17/crates/usvg" }
-svgtypes ={ path = "../svgtypes-bevy-0.17" }
+kurbo ={ git = "https://github.com/HaHa421/kurbo-bevy-0.17" }
+vello = { git = "https://github.com/HaHa421/vello-bevy-0.17" }
+bevy_vello = { git = "https://github.com/HaHa421/bevy_vello-bevy-0.17" }
+parley = { git = "https://github.com/HaHa421/parley-bevy-0.17" }
+fontique = { git = "https://github.com/HaHa421/parley-bevy-0.17/", package = "fontique" }
+usvg ={ git = "https://github.com/HaHa421/resvg-bevy-0.17/", package = "usvg" }
+svgtypes ={ git = "https://github.com/HaHa421/svgtypes-bevy-0.17" }
