@@ -2,8 +2,9 @@ use bevy::{
     asset::RenderAssetUsages,
     image::ImageSampler,
     prelude::*,
-    render::{render_resource::*, view::RenderLayers},
+    render::{render_resource::*},
     window::WindowResized,
+    camera::visibility::RenderLayers,
 };
 use woodpecker_ui::prelude::*;
 
@@ -94,7 +95,7 @@ fn startup(
             ..Default::default()
         },
         Projection::Orthographic(OrthographicProjection {
-            scaling_mode: bevy::render::camera::ScalingMode::Fixed {
+            scaling_mode: bevy::camera::ScalingMode::Fixed {
                 width: 640.0,
                 height: 360.0,
             },

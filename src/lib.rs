@@ -63,7 +63,8 @@
 //! ```
 use bevy::render::extract_resource::ExtractResourcePlugin;
 use bevy::{
-    asset::embedded_asset, prelude::*, reflect::GetTypeRegistration, render::view::RenderLayers,
+    asset::embedded_asset, prelude::*, reflect::GetTypeRegistration, /*render::view::RenderLayers,*/
+    camera::visibility::RenderLayers,
 };
 // use bevy_mod_picking::{events::Pointer, prelude::EventListenerPlugin};
 use bevy_trait_query::RegisterExt;
@@ -233,8 +234,8 @@ impl Plugin for WoodpeckerUIPlugin {
             .add_plugins(WoodpeckerUIWidgetPlugin)
             .add_plugins(ExtractResourcePlugin::<ImageManager>::default())
             .add_plugins(ConvertRenderTargetPlugin)
-            .add_event::<focus::WidgetFocus>()
-            .add_event::<focus::WidgetBlur>()
+            //.add_event::<focus::WidgetFocus>()
+            //.add_event::<focus::WidgetBlur>()
             .insert_resource(focus::CurrentFocus::new(Entity::PLACEHOLDER))
             .init_resource::<ObserverCache>()
             .init_resource::<FontManager>()
@@ -297,7 +298,7 @@ impl Plugin for WoodpeckerUIPlugin {
     }
 }
 
-fn has_root() -> impl Condition<(), ()> {
+fn has_root() -> impl SystemCondition<(), ()> {
     IntoSystem::into_system(|context: Res<WoodpeckerContext>| context.root_widget.is_some())
 }
 

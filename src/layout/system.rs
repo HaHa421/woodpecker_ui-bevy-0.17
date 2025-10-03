@@ -463,12 +463,12 @@ pub(crate) fn measure_text(
     let mut layout_editor = parley::PlainEditor::new(styles.font_size);
     layout_editor.set_text(text);
     let text_styles = layout_editor.edit_styles();
-    text_styles.insert(parley::StyleProperty::LineHeight(
+    text_styles.insert(parley::StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
         styles
             .line_height
             .map(|lh| styles.font_size / lh)
             .unwrap_or(1.2),
-    ));
+    )));
     text_styles.insert(parley::StyleProperty::FontStack(parley::FontStack::Single(
         parley::FontFamily::Named(
             font_manager
@@ -492,8 +492,8 @@ pub(crate) fn measure_text(
     {
         crate::font::TextAlign::Left => parley::Alignment::Left,
         crate::font::TextAlign::Right => parley::Alignment::Right,
-        crate::font::TextAlign::Center => parley::Alignment::Middle,
-        crate::font::TextAlign::Justified => parley::Alignment::Justified,
+        crate::font::TextAlign::Center => parley::Alignment::Center,
+        crate::font::TextAlign::Justified => parley::Alignment::Justify,
         crate::font::TextAlign::End => parley::Alignment::End,
     };
     layout_editor.set_alignment(alignment);

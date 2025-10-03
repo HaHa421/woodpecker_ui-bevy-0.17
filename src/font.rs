@@ -33,8 +33,8 @@ pub enum TextAlign {
 /// Internally this uses cosmic text to layout and measure text.
 #[derive(Resource)]
 pub struct FontManager {
-    font_data: HashMap<Handle<VelloFont>, Vec<u8>>,
-    vello_to_family: HashMap<Handle<VelloFont>, String>,
+    font_data: HashMap<AssetId<VelloFont>/*Handle<VelloFont>*/, Vec<u8>>,
+    vello_to_family: HashMap<AssetId<VelloFont>/*Handle<VelloFont>*/, String>,
     fonts: HashSet<Handle<VelloFont>>,
     /// The parley font context for parley shaping/etc..
     pub font_cx: parley::FontContext,
@@ -65,8 +65,9 @@ impl FontManager {
 
     /// Retrieves the font family name.
     pub fn get_family(&self, vello_font: &AssetId<VelloFont>) -> String {
+      
         self.vello_to_family
-            .get(&Handle::Weak(*vello_font))
+            .get(vello_font)
             .unwrap()
             .clone()
     }
@@ -132,9 +133,9 @@ pub(crate) fn load_fonts(
 
             font_manager
                 .vello_to_family
-                .insert(Handle::Weak(*id), font_family);
+                .insert(*id, font_family);
 
-            font_manager.font_data.insert(Handle::Weak(*id), font_data);
+            font_manager.font_data.insert(*id, font_data);
         }
     }
 }

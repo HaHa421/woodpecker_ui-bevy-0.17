@@ -196,7 +196,7 @@ fn run_update_system(
     update.set_last_run(old_tick);
     world.remove_resource::<CurrentWidget>();
 
-    should_update
+    should_update.unwrap_or(false)
 }
 
 fn run_render_system(

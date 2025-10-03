@@ -16,7 +16,7 @@ use crate::{
 use bevy::{
     prelude::*,
     window::{PrimaryWindow, SystemCursorIcon},
-    winit::cursor::CursorIcon,
+    window::CursorIcon,
 };
 
 use super::{colors, Clip, Element};
@@ -146,9 +146,9 @@ pub struct TextBoxState {
     pub focused: bool,
     // Keyboard input state
     /// Cursor position.
-    pub cursor: parley::Rect,
+    pub cursor: parley::BoundingBox,
     /// Selections
-    pub selections: Vec<(parley::Rect, usize)>,
+    pub selections: Vec<(parley::BoundingBox, usize)>,
     /// Visibility state
     pub cursor_visible: bool,
     /// A last updated timer, used to blink the cursor
@@ -184,7 +184,7 @@ impl Default for TextBoxState {
             hovering: Default::default(),
             focused: Default::default(),
             selections: vec![],
-            cursor: parley::Rect::default(),
+            cursor: parley::BoundingBox::default(),
             cursor_visible: Default::default(),
             cursor_last_update: Instant::now(),
             current_value: String::new(),
@@ -219,13 +219,13 @@ pub fn render(
     let mut default_engine = parley::PlainEditor::new(styles.normal.font_size);
     default_engine.set_text(&text_box.initial_value);
     let text_styles = default_engine.edit_styles();
-    text_styles.insert(StyleProperty::LineHeight(
+    text_styles.insert(StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
         styles
             .normal
             .line_height
             .map(|lh| styles.normal.font_size / lh)
             .unwrap_or(1.2),
-    ));
+    )));
     text_styles.insert(StyleProperty::FontStack(parley::FontStack::Single(
         FontFamily::Named(
             font_manager
@@ -315,7 +315,7 @@ pub fn render(
     *children = WidgetChildren::default()
         .with_observe(
             current_widget,
-            move |trigger: Trigger<WidgetKeyboardCharEvent>,
+            move |trigger: On<WidgetKeyboardCharEvent>,
                   mut commands: Commands,
                   keyboard_input: Res<ButtonInput<KeyCode>>,
                   mut font_manager: ResMut<FontManager>,
@@ -345,20 +345,20 @@ pub fn render(
                 state.selections = state.engine.selection_geometry();
                 state.current_value = state.engine.text().to_string();
 
-                commands.trigger_targets(
+                commands.trigger(
                     Change {
                         target: *current_widget,
                         data: TextChanged {
                             value: state.current_value.clone(),
                         },
                     },
-                    *current_widget,
+                    //*current_widget,
                 );
             },
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<Pointer<Pressed>>,
+            move |trigger: On<Pointer<Press>>,
                   mouse_input: Res<ButtonInput<MouseButton>>,
                   keyboard_input: Res<ButtonInput<KeyCode>>,
                   style_query: Query<&WoodpeckerStyle>,
@@ -367,13 +367,13 @@ pub fn render(
                   window: Single<(Entity, &Window), With<PrimaryWindow>>,
                   camera: Query<&Camera, With<WoodpeckerView>>,
                   mut state_query: Query<&mut TextBoxState>| {
-                let Ok(styles) = style_query.get(trigger.target) else {
+                let Ok(styles) = style_query.get(trigger.event().event_target()) else {
                     return;
                 };
                 let Ok(mut state) = state_query.get_mut(state_entity) else {
                     return;
                 };
-                let Ok(widget_layout) = widget_layout.get(trigger.target) else {
+                let Ok(widget_layout) = widget_layout.get(trigger.event().event_target()) else {
                     return;
                 };
 
@@ -429,20 +429,20 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<Pointer<DragStart>>,
+            move |trigger: On<Pointer<DragStart>>,
                   style_query: Query<&WoodpeckerStyle>,
                   mut font_manager: ResMut<FontManager>,
                   widget_layout: Query<&WidgetLayout>,
                   window: Single<(Entity, &Window), With<PrimaryWindow>>,
                   camera: Query<&Camera, With<WoodpeckerView>>,
                   mut state_query: Query<&mut TextBoxState>| {
-                let Ok(styles) = style_query.get(trigger.target) else {
+                let Ok(styles) = style_query.get(trigger.event().event_target()) else {
                     return;
                 };
                 let Ok(mut state) = state_query.get_mut(state_entity) else {
                     return;
                 };
-                let Ok(widget_layout) = widget_layout.get(trigger.target) else {
+                let Ok(widget_layout) = widget_layout.get(trigger.event().event_target()) else {
                     return;
                 };
 
@@ -481,7 +481,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<Pointer<Drag>>,
+            move |trigger: On<Pointer<Drag>>,
                   style_query: Query<&WoodpeckerStyle>,
                   mut font_manager: ResMut<FontManager>,
                   widget_layout: Query<&WidgetLayout>,
@@ -491,10 +491,10 @@ pub fn render(
                 let Ok(mut state) = state_query.get_mut(state_entity) else {
                     return;
                 };
-                let Ok(widget_layout) = widget_layout.get(trigger.target) else {
+                let Ok(widget_layout) = widget_layout.get(trigger.event().event_target()) else {
                     return;
                 };
-                let Ok(styles) = style_query.get(trigger.target) else {
+                let Ok(styles) = style_query.get(trigger.event().event_target()) else {
                     return;
                 };
 
@@ -534,7 +534,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |_trigger: Trigger<Pointer<Over>>,
+            move |_trigger: On<Pointer<Over>>,
                   mut commands: Commands,
                   mut state_query: Query<&mut TextBoxState>,
                   camera_query: Query<Entity, With<PrimaryWindow>>| {
@@ -552,7 +552,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |_trigger: Trigger<Pointer<Out>>,
+            move |_trigger: On<Pointer<Out>>,
                   mut commands: Commands,
                   mut state_query: Query<&mut TextBoxState>,
                   camera_query: Query<Entity, With<PrimaryWindow>>| {
@@ -570,7 +570,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |_trigger: Trigger<WidgetFocus>, mut state_query: Query<&mut TextBoxState>| {
+            move |_trigger: On<WidgetFocus>, mut state_query: Query<&mut TextBoxState>| {
                 let Ok(mut state) = state_query.get_mut(state_entity) else {
                     return;
                 };
@@ -580,7 +580,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<WidgetBlur>,
+            move |trigger: On<WidgetBlur>,
                   style_query: Query<&WoodpeckerStyle>,
                   mut font_manager: ResMut<FontManager>,
                   mut state_query: Query<&mut TextBoxState>| {
@@ -605,7 +605,7 @@ pub fn render(
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<WidgetPasteEvent>,
+            move |trigger: On<WidgetPasteEvent>,
                   mut commands: Commands,
                   style_query: Query<&WoodpeckerStyle>,
                   mut state_query: Query<&mut TextBoxState>,
@@ -627,20 +627,20 @@ pub fn render(
 
                 state.current_value = state.engine.text().to_string();
 
-                commands.trigger_targets(
+                commands.trigger(
                     Change {
                         target: *current_widget,
                         data: TextChanged {
                             value: state.current_value.clone(),
                         },
                     },
-                    *current_widget,
+                    //*current_widget,
                 );
             },
         )
         .with_observe(
             current_widget,
-            move |trigger: Trigger<WidgetKeyboardButtonEvent>,
+            move |trigger: On<WidgetKeyboardButtonEvent>,
                   commands: Commands,
                   style_query: Query<&WoodpeckerStyle>,
                   state_query: Query<&mut TextBoxState>,
@@ -773,7 +773,7 @@ pub fn cursor_animation_system(
 }
 
 pub fn textbox_handle_keyboard_events(
-    trigger: Trigger<WidgetKeyboardButtonEvent>,
+    trigger: On<WidgetKeyboardButtonEvent>,
     mut commands: Commands,
     style_query: Query<&WoodpeckerStyle>,
     mut state_query: Query<&mut TextBoxState>,
@@ -813,14 +813,14 @@ pub fn textbox_handle_keyboard_events(
             .cursor_geometry(styles.font_size)
             .unwrap_or_default();
         state.current_value = state.engine.text().to_string();
-        commands.trigger_targets(
+        commands.trigger(
             Change {
                 target: trigger.target,
                 data: TextChanged {
                     value: state.current_value.clone(),
                 },
             },
-            trigger.target,
+            //trigger.target,
         );
     }
 
@@ -842,14 +842,14 @@ pub fn textbox_handle_keyboard_events(
             .cursor_geometry(styles.font_size)
             .unwrap_or_default();
         state.current_value = state.engine.text().to_string();
-        commands.trigger_targets(
+        commands.trigger(
             Change {
                 target: trigger.target,
                 data: TextChanged {
                     value: state.current_value.clone(),
                 },
             },
-            trigger.target,
+            //trigger.target,
         );
     }
 
@@ -982,14 +982,14 @@ pub fn textbox_handle_keyboard_events(
             .unwrap_or_default();
         state.selections = state.engine.selection_geometry();
         state.current_value = state.engine.text().to_string();
-        commands.trigger_targets(
+        commands.trigger(
             Change {
                 target: trigger.target,
                 data: TextChanged {
                     value: state.current_value.clone(),
                 },
             },
-            trigger.target,
+            //trigger.target,
         );
     }
     if (keyboard_input.pressed(KeyCode::SuperLeft) || keyboard_input.pressed(KeyCode::ControlLeft))
@@ -1049,14 +1049,14 @@ pub fn textbox_handle_keyboard_events(
                 .unwrap_or_default();
             state.selections = state.engine.selection_geometry();
             state.current_value = state.engine.text().to_string();
-            commands.trigger_targets(
+            commands.trigger(
                 Change {
                     target: trigger.target,
                     data: TextChanged {
                         value: state.current_value.clone(),
                     },
                 },
-                trigger.target,
+                //trigger.target,
             );
         }
     }

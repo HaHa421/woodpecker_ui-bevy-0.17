@@ -7,6 +7,7 @@ fn main() {
         .add_plugins((
             bevy_inspector_egui::bevy_egui::EguiPlugin {
                 enable_multipass_for_primary_context: false,
+                ..default()
             },
             bevy_inspector_egui::quick::WorldInspectorPlugin::new(),
         ))

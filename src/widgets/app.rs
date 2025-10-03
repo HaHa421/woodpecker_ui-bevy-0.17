@@ -3,7 +3,7 @@ use crate::{
     prelude::{Units, Widget, WoodpeckerStyle},
     CurrentWidget, WoodpeckerView,
 };
-use bevy::{prelude::*, render::camera::CameraProjection, window::PrimaryWindow};
+use bevy::{prelude::*, camera::CameraProjection, window::PrimaryWindow};
 
 /// The Woodpecker UI App component
 #[derive(Component, Widget, Reflect, Default, Clone)]
@@ -47,14 +47,17 @@ pub fn render(
     };
 
     let camera_size = match &camera.target {
-        bevy::render::camera::RenderTarget::Window(_) => primary_window.size(),
-        bevy::render::camera::RenderTarget::Image(image_render_target) => images
+        bevy::camera::RenderTarget::Window(_) => primary_window.size(),
+        bevy::camera::RenderTarget::Image(image_render_target) => images
             .get(&image_render_target.handle)
             .unwrap()
             .size()
             .as_vec2(),
-        bevy::render::camera::RenderTarget::TextureView(_) => {
+        bevy::camera::RenderTarget::TextureView(_) => {
             panic!("ManualTextureViewHandle not supported!")
+        }
+        bevy::camera::RenderTarget::None{..}=>{
+          panic!("camera has no render target!")
         }
     };
 
@@ -62,15 +65,15 @@ pub fn render(
         Projection::Orthographic(orthographic_projection) => {
             let mut proj = orthographic_projection.clone();
             match proj.scaling_mode {
-                bevy::render::camera::ScalingMode::WindowSize => Rect {
+                bevy::camera::ScalingMode::WindowSize => Rect {
                     min: Vec2::ZERO,
                     max: camera_size,
                 },
-                bevy::render::camera::ScalingMode::AutoMin { .. }
-                | bevy::render::camera::ScalingMode::AutoMax { .. }
-                | bevy::render::camera::ScalingMode::FixedVertical { .. }
-                | bevy::render::camera::ScalingMode::FixedHorizontal { .. }
-                | bevy::render::camera::ScalingMode::Fixed { .. } => {
+                bevy::camera::ScalingMode::AutoMin { .. }
+                | bevy::camera::ScalingMode::AutoMax { .. }
+                | bevy::camera::ScalingMode::FixedVertical { .. }
+                | bevy::camera::ScalingMode::FixedHorizontal { .. }
+                | bevy::camera::ScalingMode::Fixed { .. } => {
                     proj.update(camera_size.x, camera_size.y);
                     proj.area
                 }

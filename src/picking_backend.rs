@@ -185,14 +185,15 @@ pub fn mouse_wheel_system(
 
         for mwe in evr_scroll.read() {
             let scroll = Vec2::new(mwe.x, mwe.y);
-            commands.trigger_targets(
+            commands.trigger(
                 Pointer::new(
                     pointer_id,
                     location.clone(),
-                    hovered_entity,
                     MouseWheelScroll { scroll },
+                    hovered_entity,
+                    
                 ),
-                hovered_entity,
+                //hovered_entity,
             );
         }
     }

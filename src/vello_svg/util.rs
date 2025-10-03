@@ -3,8 +3,9 @@
 
 use bevy_vello::vello::kurbo::{Affine, BezPath, Point, Rect, Stroke};
 use bevy_vello::vello::peniko::color::DynamicColor;
-use bevy_vello::vello::peniko::{Blob, Brush, Color, Fill, Image};
+use bevy_vello::vello::peniko::{Blob, Brush, Color, Fill, ImageBrush};
 use bevy_vello::vello::Scene;
+use bevy_vello::vello::peniko;
 
 pub fn to_affine(ts: &usvg::Transform) -> Affine {
     let usvg::Transform {
@@ -92,14 +93,17 @@ pub fn to_bez_path(path: &usvg::Path) -> BezPath {
     local_path
 }
 
-pub fn into_image(image: image::ImageBuffer<image::Rgba<u8>, Vec<u8>>) -> Image {
+pub fn into_image(image: image::ImageBuffer<image::Rgba<u8>, Vec<u8>>) -> ImageBrush {
     let (width, height) = (image.width(), image.height());
     let image_data: Vec<u8> = image.into_vec();
-    Image::new(
-        Blob::new(std::sync::Arc::new(image_data)),
-        bevy_vello::vello::peniko::ImageFormat::Rgba8,
+    ImageBrush::new(
+      peniko::ImageData  {
+        data: image_data.into(),
+        format: peniko::ImageFormat::Rgba8,
+        alpha_type: peniko::ImageAlphaType::Alpha,
         width,
         height,
+      },
     )
 }
 

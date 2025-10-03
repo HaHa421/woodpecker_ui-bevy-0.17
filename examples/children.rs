@@ -86,6 +86,7 @@ fn main() {
         .add_plugins((
             bevy_inspector_egui::bevy_egui::EguiPlugin {
                 enable_multipass_for_primary_context: false,
+                ..default()
             },
             bevy_inspector_egui::quick::WorldInspectorPlugin::new(),
         ))
@@ -97,6 +98,7 @@ fn main() {
 }
 
 fn startup(mut commands: Commands, mut ui_context: ResMut<WoodpeckerContext>) {
+    commands.spawn((Camera2d, WoodpeckerView));
     let root = commands.spawn(FooWidget).id();
     ui_context.set_root_widget(root);
 }

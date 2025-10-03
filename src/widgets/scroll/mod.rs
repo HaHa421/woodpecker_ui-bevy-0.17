@@ -139,12 +139,14 @@ impl ScrollContext {
 pub struct ScrollContextProvider {
     /// The initial scroll context
     pub initial_value: ScrollContext,
-    #[reflect(ignore)]
+    /*
+    //#[reflect(ignore)]
     /// An optional TaggedContext that allows you to tag the context
     /// for smarter querying later.
-    pub tag: Option<TaggedContext>,
+    //pub tag: Option<TaggedContext>,
+    */
 }
-
+/*
 /// Allows you to attach a tag to the scroll or windowing context.
 /// This is useful for querying a specific context for
 /// manual control.
@@ -176,7 +178,7 @@ impl TaggedContext {
         Self { f }
     }
 }
-
+*/
 pub fn render(
     mut commands: Commands,
     mut context: ResMut<HookHelper>,
@@ -189,10 +191,11 @@ pub fn render(
 
     // Setup scroll context.
     let entity = context.use_context(&mut commands, *current_widget, provider.initial_value);
+    /*
     if let Some(tag) = provider.tag.as_ref() {
         (tag.f)(commands.entity(entity));
     }
-
+    */
     children.apply(current_widget.as_parent());
 }
 

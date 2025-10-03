@@ -42,7 +42,7 @@ impl Plugin for ConvertRenderTargetPlugin {
 #[derive(Resource, Default, ExtractResource, Clone)]
 pub struct RenderTargetImages {
     pub images: HashMap<Handle<Image>, Handle<Image>>,
-    pub vello_images: HashMap<Handle<Image>, peniko::Image>,
+    pub vello_images: HashMap<Handle<Image>, peniko::ImageBrush>,
     shaders: HashMap<TextureFormat, Handle<Shader>>,
 }
 
@@ -157,11 +157,11 @@ fn prepare_bind_groups(
                         vertex: VertexState {
                             shader: shader.clone(),
                             shader_defs: vec![],
-                            entry_point: "vertex".into(),
+                            entry_point: Some("vertex".into()),
                             buffers: vec![],
                         },
                         primitive: PrimitiveState {
-                            topology: bevy::render::mesh::PrimitiveTopology::TriangleList,
+                            topology: bevy::mesh::PrimitiveTopology::TriangleList,
                             ..Default::default()
                         },
                         depth_stencil: None,
@@ -169,7 +169,7 @@ fn prepare_bind_groups(
                         fragment: Some(FragmentState {
                             shader: shader.clone(),
                             shader_defs: vec![],
-                            entry_point: "fragment".into(),
+                            entry_point: Some("fragment".into()),
                             targets: vec![Some(ColorTargetState {
                                 format: TextureFormat::Rgba8Unorm,
                                 blend: None,
@@ -241,6 +241,7 @@ fn render(
                     load: bevy::render::render_resource::LoadOp::Clear(Color::RED),
                     store: bevy::render::render_resource::StoreOp::Store,
                 },
+                depth_slice: None,
             })],
             depth_stencil_attachment: None,
             timestamp_writes: None,
@@ -273,7 +274,7 @@ fn override_images(
         };
 
         renderer.override_image(
-            image,
+            &image.image,
             Some(TexelCopyTextureInfoBase {
                 texture: (*gpu_image.texture).clone(),
                 mip_level: 0,

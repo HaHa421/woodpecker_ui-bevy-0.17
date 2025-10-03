@@ -57,10 +57,12 @@ impl WindowingContext {
 pub struct WindowingContextProvider {
     /// The initial windowing context
     pub initial_value: WindowingContext,
-    #[reflect(ignore)]
+    /*
+    //#[reflect(ignore)]
     /// An optional TaggedContext that allows you to tag the context
     /// for smarter querying later.
-    pub tag: Option<TaggedContext>,
+    //pub tag: Option<TaggedContext>,
+    */
 }
 
 fn render(
@@ -79,10 +81,10 @@ fn render(
         *current_widget,
         provider.initial_value.clone(),
     );
-
+    /*
     if let Some(tag) = provider.tag.as_ref() {
         (tag.f)(commands.entity(entity));
     }
-
+    */
     children.apply(current_widget.as_parent());
 }
