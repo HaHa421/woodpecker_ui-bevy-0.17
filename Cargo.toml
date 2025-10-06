@@ -15,7 +15,7 @@ debug-render = []
 metrics = []
 
 [dependencies]
-parley = "0.5"
+parley = "0.6"
 # parley = { git = "https://github.com/linebender/parley", rev = "74a3499920675a63450727e44a75a57f76389e7a" }
 # bevy_vello = { path = "../bevy_vello", features = ["text", "default_font"] }
 bevy_vello = { version = "0.10", features = ["text", "default_font"] }
@@ -74,10 +74,7 @@ inherits = "dev"
 
 [patch.crates-io]
 
-kurbo ={ git = "https://github.com/HaHa421/kurbo-bevy-0.17" }
-vello = { git = "https://github.com/HaHa421/vello-bevy-0.17" }
+
 bevy_vello = { git = "https://github.com/HaHa421/bevy_vello-bevy-0.17" }
-parley = { git = "https://github.com/HaHa421/parley-bevy-0.17" }
-fontique = { git = "https://github.com/HaHa421/parley-bevy-0.17/", package = "fontique" }
 usvg ={ git = "https://github.com/HaHa421/resvg-bevy-0.17/", package = "usvg" }
 svgtypes ={ git = "https://github.com/HaHa421/svgtypes-bevy-0.17" }

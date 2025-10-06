@@ -299,7 +299,7 @@ pub fn render(
     }
 
     let cursor_styles = WoodpeckerStyle {
-        top: (state.cursor.min_y() as f32
+        top: (state.cursor.y0.min(state.cursor.y1) as f32
             + if text_box.multi_line {
                 2.0
             } else {
@@ -307,7 +307,7 @@ pub fn render(
                     / 2.0
             })
         .into(),
-        left: (state.cursor.min_x() as f32).into(),
+        left: (state.cursor.x0.min(state.cursor.x1) as f32).into(),
         ..styles.cursor
     };
 
@@ -722,7 +722,12 @@ pub fn render(
                                 color.alpha,
                             ])),
                             None,
-                            &selection.0,
+                            &bevy_vello::prelude::kurbo::Rect {
+                              x0: selection.0.x0,
+                              y0: selection.0.y0,
+                              x1: selection.0.x1,
+                              y1: selection.0.y1,
+                            }
                         );
                     }
                 }),
