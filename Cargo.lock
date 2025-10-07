@@ -8246,3 +8246,8 @@ checksum = "29ce2c8a9384ad323cf564b67da86e21d3cfdff87908bc1223ed5c99bc792713"
 dependencies = [
  "zune-core",
 ]
+
+[[patch.unused]]
+name = "velato"
+version = "0.6.0"
+source = "git+https://github.com/HaHa421/velato-bevy-0.17#9ea66875125539f462aaa1edaf3b5a7c2c6c1e72"

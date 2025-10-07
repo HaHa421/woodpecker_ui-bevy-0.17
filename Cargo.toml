@@ -78,3 +78,4 @@ inherits = "dev"
 bevy_vello = { git = "https://github.com/HaHa421/bevy_vello-bevy-0.17" }
 usvg ={ git = "https://github.com/HaHa421/resvg-bevy-0.17/", package = "usvg" }
 svgtypes ={ git = "https://github.com/HaHa421/svgtypes-bevy-0.17" }
+velato = { git = "https://github.com/HaHa421/velato-bevy-0.17" }
