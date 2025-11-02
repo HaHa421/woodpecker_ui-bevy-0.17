@@ -191,24 +191,15 @@ fn render(
             Pickable::default(),
             WidgetRender::Quad,
         ))
-        .observe(
-            *current_widget,
-            move |mut trigger: On<Pointer<Over>>| {
-                trigger.propagate(false);
-            },
-        )
-        .observe(
-            *current_widget,
-            move |mut trigger: On<Pointer<Out>>| {
-                trigger.propagate(false);
-            },
-        )
-        .observe(
-            *current_widget,
-            move |mut trigger: On<Pointer<Click>>| {
-                trigger.propagate(false);
-            },
-        )
+        .observe(*current_widget, move |mut trigger: On<Pointer<Over>>| {
+            trigger.propagate(false);
+        })
+        .observe(*current_widget, move |mut trigger: On<Pointer<Out>>| {
+            trigger.propagate(false);
+        })
+        .observe(*current_widget, move |mut trigger: On<Pointer<Click>>| {
+            trigger.propagate(false);
+        })
         // Window
         .add::<Element>((
             Element,

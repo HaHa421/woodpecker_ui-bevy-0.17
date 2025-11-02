@@ -141,7 +141,7 @@ fn render(
             state.value = (trigger.pointer_location.position.x - widget_layout.location.x)
                 / widget_layout.size.x;
             state.value = state.value.clamp(0.0, 1.0);
-            
+
             commands.trigger(
                 Change {
                     target: *current_widget,
@@ -190,7 +190,7 @@ fn render(
                 state.value = (trigger.pointer_location.position.x - widget_layout.location.x)
                     / widget_layout.size.x;
                 state.value = state.value.clamp(0.0, 1.0);
-                
+
                 commands.trigger(
                     Change {
                         target: *current_widget,

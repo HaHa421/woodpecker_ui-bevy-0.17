@@ -66,8 +66,9 @@ impl CurrentFocus {
                         }
                         // Focus new entity
                         *current_focus = CurrentFocus::new(entity);
-                        commands
-                            .trigger(WidgetFocus { target: entity }/*, current_focus.get()*/);
+                        commands.trigger(
+                            WidgetFocus { target: entity }, /*, current_focus.get()*/
+                        );
                         none_selected = false;
                     }
                 }
@@ -94,7 +95,7 @@ impl CurrentFocus {
 
 /// A bevy_eventlistener Event that triggers when a widget has focus.
 /// Note: The widget must have the Focusable component tag.
-#[derive(Clone, PartialEq, Debug, Reflect,  EntityEvent)]
+#[derive(Clone, PartialEq, Debug, Reflect, EntityEvent)]
 pub struct WidgetFocus {
     /// The target of this event
     #[event_target]
@@ -103,7 +104,7 @@ pub struct WidgetFocus {
 
 /// A bevy_eventlistener Event that triggers when a widget has lost focus.
 /// Note: The widget must have the Focusable component tag.
-#[derive(Clone, PartialEq, Debug, Reflect,  EntityEvent)]
+#[derive(Clone, PartialEq, Debug, Reflect, EntityEvent)]
 pub struct WidgetBlur {
     /// The target of this event
     #[event_target]

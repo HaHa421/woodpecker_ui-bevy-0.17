@@ -15,7 +15,7 @@ use crate::focus::CurrentFocus;
 /// An event that fires when a keyboard button is pressed.
 /// The event target is the currently focused entity.
 /// Note: This does not continously fire unless a button is released.
-#[derive(Clone, PartialEq, Debug, Reflect,  EntityEvent)]
+#[derive(Clone, PartialEq, Debug, Reflect, EntityEvent)]
 pub struct WidgetKeyboardButtonEvent {
     /// The target of this event
     #[event_target]
@@ -26,7 +26,7 @@ pub struct WidgetKeyboardButtonEvent {
 
 /// An event that fires when a keyboard character is sent.
 /// The event target is the currently focused entity.
-#[derive(Clone, PartialEq, Debug, Reflect,  EntityEvent)]
+#[derive(Clone, PartialEq, Debug, Reflect, EntityEvent)]
 pub struct WidgetKeyboardCharEvent {
     /// The target of this event
     #[event_target]
@@ -39,7 +39,7 @@ pub struct WidgetKeyboardCharEvent {
 
 /// An event that fires when the user pastes(ctrl + v).
 /// The event target is the currently focused entity.
-#[derive(Clone, PartialEq, Debug, Reflect,  EntityEvent)]
+#[derive(Clone, PartialEq, Debug, Reflect, EntityEvent)]
 pub struct WidgetPasteEvent {
     /// The target of this event
     #[event_target]

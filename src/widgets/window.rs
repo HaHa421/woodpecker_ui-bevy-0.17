@@ -1,8 +1,8 @@
 use crate::{picking_backend::compute_letterboxed_transform, prelude::*};
 use bevy::{
     prelude::*,
-    window::{PrimaryWindow, SystemCursorIcon},
     window::CursorIcon,
+    window::{PrimaryWindow, SystemCursorIcon},
 };
 // use bevy_mod_picking::{
 //     events::{Drag, Pointer},
@@ -130,8 +130,7 @@ fn render(
     children
         .observe(
             current_widget,
-            move |trigger: On<WidgetFocus>,
-                  mut context_query: Query<&mut WindowingContext>| {
+            move |trigger: On<WidgetFocus>, mut context_query: Query<&mut WindowingContext>| {
                 let Ok(mut context) = context_query.get_mut(context_entity) else {
                     return;
                 };
@@ -166,8 +165,7 @@ fn render(
         ))
         .observe(
             current_widget,
-            move |_trigger: On<Pointer<Press>>,
-                  mut context_query: Query<&mut WindowingContext>| {
+            move |_trigger: On<Pointer<Press>>, mut context_query: Query<&mut WindowingContext>| {
                 let Ok(mut context) = context_query.get_mut(context_entity) else {
                     return;
                 };

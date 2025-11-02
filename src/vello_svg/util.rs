@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 
 use bevy_vello::vello::kurbo::{Affine, BezPath, Point, Rect, Stroke};
+use bevy_vello::vello::peniko;
 use bevy_vello::vello::peniko::color::DynamicColor;
 use bevy_vello::vello::peniko::{Blob, Brush, Color, Fill, ImageBrush};
 use bevy_vello::vello::Scene;
-use bevy_vello::vello::peniko;
 
 pub fn to_affine(ts: &usvg::Transform) -> Affine {
     let usvg::Transform {
@@ -96,15 +96,13 @@ pub fn to_bez_path(path: &usvg::Path) -> BezPath {
 pub fn into_image(image: image::ImageBuffer<image::Rgba<u8>, Vec<u8>>) -> ImageBrush {
     let (width, height) = (image.width(), image.height());
     let image_data: Vec<u8> = image.into_vec();
-    ImageBrush::new(
-      peniko::ImageData  {
+    ImageBrush::new(peniko::ImageData {
         data: image_data.into(),
         format: peniko::ImageFormat::Rgba8,
         alpha_type: peniko::ImageAlphaType::Alpha,
         width,
         height,
-      },
-    )
+    })
 }
 
 pub fn to_brush(

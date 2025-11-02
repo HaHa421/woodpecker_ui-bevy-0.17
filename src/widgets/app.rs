@@ -3,7 +3,7 @@ use crate::{
     prelude::{Units, Widget, WoodpeckerStyle},
     CurrentWidget, WoodpeckerView,
 };
-use bevy::{prelude::*, camera::CameraProjection, window::PrimaryWindow};
+use bevy::{camera::CameraProjection, prelude::*, window::PrimaryWindow};
 
 /// The Woodpecker UI App component
 #[derive(Component, Widget, Reflect, Default, Clone)]
@@ -56,8 +56,8 @@ pub fn render(
         bevy::camera::RenderTarget::TextureView(_) => {
             panic!("ManualTextureViewHandle not supported!")
         }
-        bevy::camera::RenderTarget::None{..}=>{
-          panic!("camera has no render target!")
+        bevy::camera::RenderTarget::None { .. } => {
+            panic!("camera has no render target!")
         }
     };
 

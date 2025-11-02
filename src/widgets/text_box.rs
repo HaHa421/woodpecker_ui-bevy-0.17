@@ -15,8 +15,8 @@ use crate::{
 };
 use bevy::{
     prelude::*,
-    window::{PrimaryWindow, SystemCursorIcon},
     window::CursorIcon,
+    window::{PrimaryWindow, SystemCursorIcon},
 };
 
 use super::{colors, Clip, Element};
@@ -219,13 +219,15 @@ pub fn render(
     let mut default_engine = parley::PlainEditor::new(styles.normal.font_size);
     default_engine.set_text(&text_box.initial_value);
     let text_styles = default_engine.edit_styles();
-    text_styles.insert(StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
-        styles
-            .normal
-            .line_height
-            .map(|lh| styles.normal.font_size / lh)
-            .unwrap_or(1.2),
-    )));
+    text_styles.insert(StyleProperty::LineHeight(
+        parley::LineHeight::MetricsRelative(
+            styles
+                .normal
+                .line_height
+                .map(|lh| styles.normal.font_size / lh)
+                .unwrap_or(1.2),
+        ),
+    ));
     text_styles.insert(StyleProperty::FontStack(parley::FontStack::Single(
         FontFamily::Named(
             font_manager
@@ -723,11 +725,11 @@ pub fn render(
                             ])),
                             None,
                             &bevy_vello::prelude::kurbo::Rect {
-                              x0: selection.0.x0,
-                              y0: selection.0.y0,
-                              x1: selection.0.x1,
-                              y1: selection.0.y1,
-                            }
+                                x0: selection.0.x0,
+                                y0: selection.0.y0,
+                                x1: selection.0.x1,
+                                y1: selection.0.y1,
+                            },
                         );
                     }
                 }),

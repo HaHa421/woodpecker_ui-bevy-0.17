@@ -1,6 +1,6 @@
-use bevy::{prelude::*};
-use woodpecker_ui::prelude::*;
 use bevy::camera::visibility::RenderLayers;
+use bevy::prelude::*;
+use woodpecker_ui::prelude::*;
 
 fn main() {
     App::new()

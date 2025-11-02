@@ -463,12 +463,14 @@ pub(crate) fn measure_text(
     let mut layout_editor = parley::PlainEditor::new(styles.font_size);
     layout_editor.set_text(text);
     let text_styles = layout_editor.edit_styles();
-    text_styles.insert(parley::StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
-        styles
-            .line_height
-            .map(|lh| styles.font_size / lh)
-            .unwrap_or(1.2),
-    )));
+    text_styles.insert(parley::StyleProperty::LineHeight(
+        parley::LineHeight::MetricsRelative(
+            styles
+                .line_height
+                .map(|lh| styles.font_size / lh)
+                .unwrap_or(1.2),
+        ),
+    ));
     text_styles.insert(parley::StyleProperty::FontStack(parley::FontStack::Single(
         parley::FontFamily::Named(
             font_manager

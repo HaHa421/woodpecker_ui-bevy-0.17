@@ -223,8 +223,7 @@ fn render(
             )
             .with_observe(
                 *current_widget,
-                move |_trigger: On<Pointer<DragEnd>>,
-                      mut query: Query<&mut ColorPickerState>| {
+                move |_trigger: On<Pointer<DragEnd>>, mut query: Query<&mut ColorPickerState>| {
                     let Ok(mut state) = query.get_mut(state_entity) else {
                         return;
                     };
@@ -344,8 +343,7 @@ fn render(
             )
             .with_observe(
                 *current_widget,
-                move |_trigger: On<Pointer<DragEnd>>,
-                      mut query: Query<&mut ColorPickerState>| {
+                move |_trigger: On<Pointer<DragEnd>>, mut query: Query<&mut ColorPickerState>| {
                     let Ok(mut state) = query.get_mut(state_entity) else {
                         return;
                     };
@@ -465,8 +463,7 @@ fn render(
             )
             .with_observe(
                 *current_widget,
-                move |_trigger: On<Pointer<DragEnd>>,
-                      mut query: Query<&mut ColorPickerState>| {
+                move |_trigger: On<Pointer<DragEnd>>, mut query: Query<&mut ColorPickerState>| {
                     let Ok(mut state) = query.get_mut(state_entity) else {
                         return;
                     };

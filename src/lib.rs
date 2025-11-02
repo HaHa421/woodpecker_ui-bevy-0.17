@@ -63,8 +63,8 @@
 //! ```
 use bevy::render::extract_resource::ExtractResourcePlugin;
 use bevy::{
-    asset::embedded_asset, prelude::*, reflect::GetTypeRegistration, /*render::view::RenderLayers,*/
-    camera::visibility::RenderLayers,
+    asset::embedded_asset, camera::visibility::RenderLayers, prelude::*,
+    reflect::GetTypeRegistration, /*render::view::RenderLayers,*/
 };
 // use bevy_mod_picking::{events::Pointer, prelude::EventListenerPlugin};
 use bevy_trait_query::RegisterExt;

@@ -62,7 +62,7 @@ pub struct WindowingContextProvider {
     /// An optional TaggedContext that allows you to tag the context
     /// for smarter querying later.
     //pub tag: Option<TaggedContext>,
-    */
+     */
 }
 
 fn render(

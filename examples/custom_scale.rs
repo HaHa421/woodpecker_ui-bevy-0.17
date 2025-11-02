@@ -1,10 +1,6 @@
 use bevy::{
-    asset::RenderAssetUsages,
-    image::ImageSampler,
-    prelude::*,
-    render::{render_resource::*},
-    window::WindowResized,
-    camera::visibility::RenderLayers,
+    asset::RenderAssetUsages, camera::visibility::RenderLayers, image::ImageSampler, prelude::*,
+    render::render_resource::*, window::WindowResized,
 };
 use woodpecker_ui::prelude::*;
 

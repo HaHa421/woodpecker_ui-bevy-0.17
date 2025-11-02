@@ -243,12 +243,14 @@ impl WidgetRender {
                         color.alpha,
                     ]),
                 )));
-                styles.insert(parley::StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
-                    widget_style
-                        .line_height
-                        .map(|lh| widget_style.font_size / lh)
-                        .unwrap_or(1.2),
-                )));
+                styles.insert(parley::StyleProperty::LineHeight(
+                    parley::LineHeight::MetricsRelative(
+                        widget_style
+                            .line_height
+                            .map(|lh| widget_style.font_size / lh)
+                            .unwrap_or(1.2),
+                    ),
+                ));
                 styles.insert(parley::StyleProperty::FontStack(parley::FontStack::Single(
                     parley::FontFamily::Named(font_name),
                 )));
@@ -350,12 +352,14 @@ impl WidgetRender {
                     parley::PlainEditor::new(widget_style.font_size * camera_scale.x);
                 layout_editor.set_text(content);
                 let styles = layout_editor.edit_styles();
-                styles.insert(parley::StyleProperty::LineHeight(parley::LineHeight::MetricsRelative(
-                    widget_style
-                        .line_height
-                        .map(|lh| widget_style.font_size / lh)
-                        .unwrap_or(1.2),
-                )));
+                styles.insert(parley::StyleProperty::LineHeight(
+                    parley::LineHeight::MetricsRelative(
+                        widget_style
+                            .line_height
+                            .map(|lh| widget_style.font_size / lh)
+                            .unwrap_or(1.2),
+                    ),
+                ));
                 styles.insert(parley::StyleProperty::FontStack(parley::FontStack::Single(
                     parley::FontFamily::Named(
                         font_manager
@@ -492,19 +496,17 @@ impl WidgetRender {
                     .images
                     .entry(image_handle.into())
                     .or_insert_with(move || {
-                        let mut image = peniko::ImageBrush::new(
-                            peniko::ImageData  {
-                              data: image.data.clone().unwrap().into(),
-                              format: peniko::ImageFormat::Rgba8,
-                              alpha_type: peniko::ImageAlphaType::Alpha,
-                              width: image.size().x,
-                              height: image.size().y,
-                            },
-                        );
+                        let mut image = peniko::ImageBrush::new(peniko::ImageData {
+                            data: image.data.clone().unwrap().into(),
+                            format: peniko::ImageFormat::Rgba8,
+                            alpha_type: peniko::ImageAlphaType::Alpha,
+                            width: image.size().x,
+                            height: image.size().y,
+                        });
                         image.sampler.quality = image_quality;
                         image
                     });
-                
+
                 vello_scene.draw_image(&*vello_image, transform);
             }
             WidgetRender::Svg {
@@ -602,15 +604,13 @@ impl WidgetRender {
                         let sub_section_data =
                             subsection_image_data(&mut image, texture_rect_floor);
                         let image_quality = widget_style.image_quality.into();
-                        let mut vello_image = peniko::ImageBrush::new(
-                            peniko::ImageData  {
-                              data: sub_section_data.into(),
-                              format: peniko::ImageFormat::Rgba8,
-                              alpha_type: peniko::ImageAlphaType::Alpha,
-                              width: texture_rect_floor.size().x as u32,
-                              height: texture_rect_floor.size().y as u32,
-                            }
-                        );
+                        let mut vello_image = peniko::ImageBrush::new(peniko::ImageData {
+                            data: sub_section_data.into(),
+                            format: peniko::ImageFormat::Rgba8,
+                            alpha_type: peniko::ImageAlphaType::Alpha,
+                            width: texture_rect_floor.size().x as u32,
+                            height: texture_rect_floor.size().y as u32,
+                        });
                         vello_image.sampler.quality = image_quality;
                         image_manager.nine_patch_slices.insert(key, vello_image);
                     }
@@ -672,16 +672,13 @@ impl WidgetRender {
                         .images
                         .insert(handle.clone(), conv_image_handle);
                     let data: Vec<u8> = vec![];
-                    let mut image = peniko::ImageBrush::new(
-                        peniko::ImageData  {
-                          data: data.into(),
-                          format: peniko::ImageFormat::Rgba8,
-                          alpha_type: peniko::ImageAlphaType::Alpha,
-                          width: image_texture_descriptor.size.width,
-                          height: image_texture_descriptor.size.height,
-                        },
- 
-                    );
+                    let mut image = peniko::ImageBrush::new(peniko::ImageData {
+                        data: data.into(),
+                        format: peniko::ImageFormat::Rgba8,
+                        alpha_type: peniko::ImageAlphaType::Alpha,
+                        width: image_texture_descriptor.size.width,
+                        height: image_texture_descriptor.size.height,
+                    });
                     image.sampler.quality = widget_style.image_quality.into();
                     render_targets.vello_images.insert(handle.clone(), image);
                 }
